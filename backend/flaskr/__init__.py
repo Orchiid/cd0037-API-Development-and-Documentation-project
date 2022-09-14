@@ -31,7 +31,7 @@ def create_app(test_config=None):
     """
 
 
-    def pagination(request):
+    def pagination(request, selection):
         page = request.args.get('page', 1, type=int)
         start = (page - 1) * QUESTIONS_PER_PAGE
         end = start + QUESTIONS_PER_PAGE
@@ -153,7 +153,7 @@ def create_app(test_config=None):
                     }
                 )
             else:
-                new_question = Question(question=question, answer=answer, difficulty=difficulty, category=category, searchTerm=searchTerm)
+                new_question = Question(question=question, answer=answer, difficulty=difficulty, category=category)
                 new_question.insert()
 
                 selection = Question.query.order_by(Question.id).all()
@@ -226,7 +226,6 @@ def create_app(test_config=None):
             body = request.get_json()
             past_questions = body.get('previous_questions', None)
             category = body.get('quiz_category', None)
-
             category_id = category['id']
             upcoming_question = None
             
@@ -234,10 +233,8 @@ def create_app(test_config=None):
                 questions = Question.query.filter_by(category=category_id).filter(Question.id.notin_((past_questions))).all()    
             else:
                 questions = Question.query.filter(Question.id.notin_((past_questions))).all()
-            
             if len(questions) > 0:
                 upcoming_question = random.choice(questions).format()
-            
             return jsonify({
                 'question': upcoming_question,
                 'success': True,
