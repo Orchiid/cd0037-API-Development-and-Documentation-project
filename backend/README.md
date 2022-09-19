@@ -71,7 +71,154 @@ One note before you delve into your tasks: for each endpoint, you are expected t
 
 You will need to provide detailed documentation of your API endpoints including the URL, request parameters, and the response body. Use the example below as a reference.
 
-### Documentation Example
+
+
+GET `\category` 
+Fetches a dictionary of all available categories
+- *Request parameters:* none 
+- *Example response:*  
+```
+{
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "success": true
+}
+
+```
+
+
+GET `\questions` 
+Fetches a paginated dictionary of questions of all available categories
+- *Request parameters (optional):* page:int 
+- *Example response:*  
+ ``` {
+  "success": true,
+  "questions": [
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },  
+    {
+      "answer": "China", 
+      "category": 2, 
+      "difficulty": 1, 
+      "id": 16, 
+      "question": "Where was noodles first invented?"
+    }
+  ], 
+   
+  "total_questions": 2,
+  "categories": {
+    "1": "Science", 
+    "2": "Art", 
+    "3": "Geography", 
+    "4": "History", 
+    "5": "Entertainment", 
+    "6": "Sports"
+  }, 
+  "present_category": null, 
+
+}
+```
+
+DELETE `/questions/<question_id>`
+Delete an existing questions from the repository of available questions
+- *Request arguments:* question_id:int 
+- *Example response:* 
+```
+{
+  "deleted": "28", 
+  "success": true,
+  "total_questions": 2
+}
+```
+
+POST `/questions`
+Add a new question to the repository of available questions
+- *Request body:* {question:string, answer:string, difficulty:int, category:string}
+- *Example response:* 
+```
+{
+  "success": true,
+  "question_created": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?",
+  "created": 29, 
+  "questions": [
+    {
+      "answer": "Maya Angelou", 
+      "category": 4, 
+      "difficulty": 2, 
+      "id": 5, 
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },  
+    {
+      "answer": "China", 
+      "category": 2, 
+      "difficulty": 1, 
+      "id": 16, 
+      "question": "Where was noodles first invented?"
+    }
+  ], 
+  "total_questions": 2
+
+  
+}
+```
+
+GET `/category/<int:category_id>/questions`
+Fetches a dictionary of questions for the specified category
+- *Request argument:* category_id:int
+- *Example response:*
+```
+{
+  "success": true, 
+  "total_questions": 2
+  "present_category": 1, 
+  "questions": [
+    {
+      "answer": "The Liver", 
+      "category": 1, 
+      "difficulty": 4, 
+      "id": 20, 
+      "question": "What is the heaviest organ in the human body?"
+    }, 
+    {
+      "answer": "Alexander Fleming", 
+      "category": 1, 
+      "difficulty": 3, 
+      "id": 21, 
+      "question": "Who discovered penicillin?"
+    }, 
+  ], 
+  
+}
+```
+POST `/play`
+Fetches one random question within a specified category. Previously asked questions are not asked again. 
+- *Request body:* {previous_questions: arr, quiz_category: {id:int, type:string}}
+- *Example response*: 
+```
+{
+  "question": {
+    "answer": "China", 
+    "category": 2, 
+    "difficulty": 1, 
+    "id": 16, 
+    "question": "Where was noodles first invented?"
+  }, 
+  "success": true
+}
+```
+
+<!-- ### Documentation Example
 
 `GET '/api/v1.0/categories'`
 
@@ -88,7 +235,7 @@ You will need to provide detailed documentation of your API endpoints including 
   "5": "Entertainment",
   "6": "Sports"
 }
-```
+``` -->
 
 ## Testing
 
